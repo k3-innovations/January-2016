@@ -5,9 +5,9 @@ public class ReverseString {
 	public StringBuffer ReverseStg(String str){
 		//using in-built class for string reverse..
 		
-		 StringBuffer buffer = new StringBuffer(str);
-	       buffer.reverse();
-		   return buffer;
+		StringBuffer buffer = new StringBuffer(str);
+	        buffer.reverse();
+		return buffer;
 	}
 	public String ManualReverse(String str){
 		//using a user-defined method for string reverse...
