@@ -1,0 +1,74 @@
+import java.util.Scanner;
+
+
+public class PrintingNumbers {
+	public static void main(String[] args) {
+		
+	
+	// user will be expected to enter a number b/n 1 and 9
+	System.out.println("please Enter an Integer");
+	
+	Scanner sc = new Scanner(System.in);
+
+    int input = sc.nextInt();
+       --------------------------------------------// nested-if//
+   if (input==1)
+    System.out.println("One");
+    else if(input==2)
+    	System.out.println("Two");
+    else if (input==3)
+    	System.out.println("Three");
+    else if (input==4)
+    	System.out.println("Four");
+    else if (input==5)
+    	System.out.println("Five");
+   else if (input==6)
+    	System.out.println("Six");
+    else if (input==7)
+    	System.out.println("Seven");
+    else if (input==8)
+    	System.out.println("Eight");
+    else if (input==9)
+    	System.out.println("Nine");
+   
+    else
+    	System.out.println("Other");
+    ------------------------------------------------------------------------//switch-case
+	
+	switch (input){
+	case 1 : input=1;
+	System.out.println("one");
+	break;
+	case 2 : input=2;
+	System.out.println("Two");
+	break;
+	case 3 : input=3;
+	System.out.println("Three");
+	break;
+	case 4 : input=4;
+	System.out.println("Four");
+	break;
+	case 5 : input=5;
+	System.out.println("Five");
+	break;
+	case 6 : input=6;
+	System.out.println("Six");
+	break;
+	case 7 : input=7;
+	System.out.println("Seven");
+	break;
+	case 8 : input=8;
+	System.out.println("Eight");
+	break;
+	case 9 : input=9;
+	System.out.println("Nine");
+	break;
+	
+	default : 
+	System.out.println("Other");
+	break;
+	}
+	
+	}
+}
+

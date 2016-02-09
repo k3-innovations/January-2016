@@ -1,0 +1,25 @@
+package reverse;
+
+public class ReveseString {
+	
+	public static void main(String[] args){
+		
+		String word = "Hello world" ;
+						
+		System.out.println("the reverse of Hello World is:"+ " " + reverseString(word) );
+		
+			}
+	// reverse method which reverses a string
+	public static String reverseString(String s) {
+	    // creating new char array
+		char[] reverseStringArray = new char[s.length()];
+
+		// filling the char array from string in reverse order 
+	    for (int i = s.length() - 1, j = 0; i != -1; i--, j++) {
+	        	reverseStringArray[j] = s.charAt(i);   
+	    }
+	    // returns the char of array
+	    return new String(reverseStringArray);
+	}
+}
+

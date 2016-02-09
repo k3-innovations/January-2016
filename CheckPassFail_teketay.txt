@@ -1,0 +1,31 @@
+package grade;
+
+public class CheckPassFail {
+
+	public float result;
+	
+
+	public float getResult() {
+		return result;
+	}
+
+
+	public void setResult(float result) {
+		this.result = result;
+	}
+
+
+	public static void main(String[] args) {
+		CheckPassFail grade = new CheckPassFail();
+		grade.setResult(80);
+		
+		if (grade.getResult()>=50)
+			
+		System.out.println("pass");	
+		
+		else 
+			System.out.println("fail");
+	}
+	
+}
+

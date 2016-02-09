@@ -1,0 +1,76 @@
+package gradestat;
+
+import java.util.Scanner;
+
+
+public class GradeStat {
+
+// min_max method declared to calculate the minimum and maximum values
+	
+	public static void min_max (int [] grad){
+				
+    	double max = grad[0];
+		double min = grad[0];
+	
+		for(int i=1; i<grad.length; i++){
+		    if (max < grad[i]) {
+				max = grad[i];
+			}
+	 
+			if (min > grad[i]) {
+				min = grad[i];
+			}
+			
+		    
+		}
+	// To print minimum grade	
+	System.out.println("The minimum grade scored is :" + min  );
+	// To print maximum grade
+	System.out.println("The maximum grade scored is:" + max);
+	         }
+	// Average method declared to calculate the average value
+	
+		public static double average(int []grade) {
+			
+			int sum = 0;
+			int count =0;
+			for(int i=1; i<grade.length; i++){
+		     	sum+=grade[i];
+					count++;
+					
+		         }
+	            return sum/count;
+		     }
+		
+			
+	                 public static void main(String[] args) {
+				double avg;// average no.
+				int n = 0;
+			//  notifying the user to enter the no. of students 	
+			System.out.print("please enter Number of students:"+" ");
+			   // will accept no. of grades from the user
+			      Scanner ab = new Scanner(System.in);
+				    n =ab.nextInt(); 
+				 int [ ]  number = new int [ n];   // instantiate the array
+		             int i;
+		            int y=0;
+		           for ( i = 0; i < n; i++ ) // fill the array 
+		            	{
+		            	y++;
+		            // Prompts the user to enter the grade one by one 
+		           System.out.print("please enter student "+ y +" "+"grade"+" ");
+		           	
+		        // will accept grades from the user one by one 
+		        	Scanner sc = new Scanner(System.in);
+
+		             number[ i ] =  sc.nextInt();
+		            	
+		                           }
+		            
+		    	 min_max(number);
+		  	    avg=average(number);
+		  	   //  print out the average grade
+		  	   System.out.println(avg);
+		  		
+			}
+	}
