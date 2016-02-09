@@ -1,0 +1,27 @@
+package javaTutoria;
+
+public class PassOrFail {
+
+	public static void main(String[] args) {
+			
+		}
+		 public static void PassFailCheck(int mark){
+			 
+			 mark =50;
+			 if(mark >= 50){
+				 System.out.println("PASS");
+			
+			 }
+			 else
+			 {System.out.println("FAIL");
+			 }
+			 
+			 
+		 }
+		
+
+
+	}
+
+
+
