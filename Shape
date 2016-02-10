@@ -1,0 +1,18 @@
+public class Shape {
+	
+	int numOfSides;
+	String colr;
+	
+	public void draw(int numOfSides){
+			this.numOfSides = numOfSides;
+	}
+	
+	public void fillColor(String colr){
+			this.colr=colr;
+	}
+	
+	public String toString(){
+		String str = numOfSides +" " +colr;
+		return str;
+	}
+}
