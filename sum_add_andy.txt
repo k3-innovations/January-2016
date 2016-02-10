@@ -1,0 +1,28 @@
+package exercise2;
+
+import java.util.Scanner;
+
+public class SumAverage {
+	
+	
+	public static void main(String[] args) {
+		double average = 0;
+		int total =0;
+		int grade=0;
+	    int cant=0;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("please enter 5 gradess in integer");
+		while (cant<5) {
+			grade = sc.nextInt();
+			total = total + grade;	
+			cant++;
+		}
+		
+		average = total/5;
+		System.out.println("your total is" +total);
+		System.out.println("your average is " + average);
+
+	}
+
+}
+
