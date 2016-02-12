@@ -1,0 +1,55 @@
+package EXercise1;
+
+public class NestedIf {
+
+	
+public static void main(String[] arg){
+	int[] numb = {1,2,3,4,5};
+	if(numb[0]== 1)
+		
+		System.out.println("ONE");
+	else
+		if(numb[1]==2)
+			System.out.println("TWO");
+		else
+				if(numb[2]==3)
+					System.out.println("THREE");
+				else
+					if(numb[3]==4)
+						System.out.println("FOUR");
+					else
+						if(numb[4]==5)
+							System.out.println("five");
+						else
+							if(numb[5]==6)
+								System.out.println("six");
+							else
+								if(numb[6]==7)
+									System.out.println("SEVEN");
+								else
+									if(numb[7]==8)
+										System.out.println("EIGHT");
+									else
+										if(numb[8]==9)
+											System.out.println("NINE");
+										else
+											
+												System.out.println("TEN");
+								
+								
+	
+		
+		
+}
+
+	
+	
+	
+
+
+	
+	
+	}
+	
+	
+
