@@ -1,0 +1,21 @@
+package exercise2;
+
+public class StringReverse {
+	public static void main(String[] args) {
+		String str = " i am happy";
+		char[] letter = new char[str.length()];
+		
+		
+		
+		for (int i= str.length()-1,j=0;i !=-1 ; i--,j++) {
+			
+			letter[j]= str.charAt(i);
+		}
+		
+		for (int x = 0; x < letter.length; x++) {
+			System.out.print(letter[x]);
+		}
+	}
+  
+}
+
