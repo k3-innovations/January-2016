@@ -9,6 +9,7 @@ public class SumAndAverage {
 			sum+=arrCnt;
 		}
 		
+		//Made a comment change...
 		System.out.println("Sum = " + sum);
 		System.out.println("Average = " + new Double(sum/100));
 		
