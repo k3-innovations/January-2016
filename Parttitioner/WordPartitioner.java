@@ -10,7 +10,7 @@ public class WordPartitioner extends Partitioner<Text, IntWritable> {
 	    public int getPartition(Text passedWord, IntWritable one, int numReduceTasks) {
 //		            return 0;
 	    	
-	    	//partitioner
+	    	//partitioner sends words to two different reducers depending on wheteher the first character in the string is Upper or Lower Case.
 
 	        String keyWord = passedWord.toString();
 	        boolean isUpperCase = Character.isUpperCase(keyWord.charAt(0));
