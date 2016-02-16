@@ -27,11 +27,11 @@ import java.util.StringTokenizer;
        	   String tmp = itr.nextToken();
        	   //check if token contains noise words. If true, just continue iteration. Step Credited to Faisal
               if(tmp.equals("and") || tmp.equals("or") || tmp.equals("the") || tmp.equals("to") || tmp.equals("for") || tmp.equals("this") || tmp.equals("that") || tmp.equals("a") )
-              		itr.nextToken();
+              		continue;
               else
            	   //set all words in the token to a String and pass it to context object
            	   word.set("Total_Words:");
-              	   context.write(word, one);
+               context.write(word, one);
               }
        
    }
