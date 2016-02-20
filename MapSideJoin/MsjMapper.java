@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PatentMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class MsjMapper extends Mapper<LongWritable, Text, Text, Text> {
 
     private Map<String, String> states = new HashMap<String, String>();
     private Text stateAbrv = new Text();

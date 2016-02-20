@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by faisal on 2/18/16.
  */
-public class PatentReducer extends Reducer<Text, Text, Text, Text> {
+public class MsjReducer extends Reducer<Text, Text, Text, Text> {
 
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
