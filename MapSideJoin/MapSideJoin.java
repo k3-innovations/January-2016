@@ -23,7 +23,7 @@ public class MapSideJoin {
         }
 
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Patent MSJ");
+        Job job = Job.getInstance(conf, "State Data MSJ");
 
         // Distributed Cache File for MSJ
 //        Path cacheFile = new Path(args[0]);
@@ -32,8 +32,8 @@ public class MapSideJoin {
 
 
         job.setJarByClass(MapSideJoin.class);
-        job.setMapperClass(PatentMapper.class);
-        job.setReducerClass(PatentReducer.class);
+        job.setMapperClass(MsjMapper.class);
+        job.setReducerClass(MsjReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
