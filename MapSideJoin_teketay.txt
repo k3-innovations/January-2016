@@ -1,0 +1,168 @@
+package mapSideJoin;
+
+import java.io.BufferedReader;
+
+import java.io.FileReader;
+
+import java.io.IOException;
+
+import java.net.URI;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+
+import org.apache.hadoop.io.Text;
+
+import org.apache.hadoop.mapreduce.Job;
+
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.filecache.DistributedCache;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class MapSide {
+
+	public static class MapperMap extends Mapper<Object, Text, Text, IntWritable> {
+
+		// Hash map is created to save the smaller file into memory
+
+		private static Map<String, String> DepartmentMap = new HashMap<String, String>();
+
+		private Text txtMapOutputKey = new Text();
+
+		// set up method is override to make pre-processing on memory
+
+		protected void setup(Context context) throws IOException, InterruptedException {
+			// populate the files from memory to array
+
+			Path[] files = DistributedCache.getLocalCacheFiles(context.getConfiguration());
+
+			// Iterate though the files to find the target file and to put the
+			// file in hash map
+
+			for (Path p : files) {
+
+				if (p.getName().toString().trim().equals("part-m-00000")) {
+					BufferedReader reader = new BufferedReader(new FileReader(p.toString()));
+					String line = reader.readLine();
+					while (line != null) {
+
+						String[] tokens = line.split(",");
+						String ab = tokens[0];
+						String state = tokens[1];
+
+						DepartmentMap.put(ab, state);
+						// read the next line
+						line = reader.readLine();
+					}
+				}
+
+			}
+			if (DepartmentMap.isEmpty()) {
+				throw new IOException("unable to load");
+			}
+
+		}
+
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+
+			// Mapping and merging take place here
+
+			String row = value.toString();
+			String[] tokens = row.split(",");
+			String inab = tokens[6];
+			IntWritable str = new IntWritable(Integer.parseInt(tokens[7]));
+
+			// merging
+			String state = DepartmentMap.get(inab);
+			txtMapOutputKey.set(state);
+
+			context.write(txtMapOutputKey, str);
+
+		}
+
+		public static class MapReduce extends Reducer<Text, IntWritable, Text, FloatWritable> {
+			@Override
+			protected void reduce(Text key, Iterable<IntWritable> value, Context context)
+					throws IOException, InterruptedException {
+
+				float avg = 0;
+				double sum = 0;
+				int count = 0;
+
+				for (IntWritable val : value) {
+
+					if (key.toString().equals("Quality Management")) {
+						count++;
+						sum += val.get();
+					}
+					if (key.toString().equals("Development")) {
+						count++;
+						sum += val.get();
+					} else if (key.toString().equals("Customer Service")) {
+						count++;
+						sum += val.get();
+					} else if (key.toString().equals("Finance")) {
+						count++;
+						sum += val.get();
+					} else if (key.toString().equals("Human Resources")) {
+						count++;
+						sum += val.get();
+					} else if (key.toString().equals("Marketing")) {
+						count++;
+						sum += val.get();
+					} else if (key.toString().equals("Production")) {
+						count++;
+						sum += val.get();
+					} else if (key.toString().equals("Research")) {
+						count++;
+						sum += val.get();
+					}
+
+					else if (key.toString().equals("Sales")) {
+						count++;
+						sum += val.get();
+					}
+				}
+				avg = (float) (sum / count);
+
+				context.write(key, new FloatWritable((int) avg));
+
+			}
+
+		}
+
+		public static void main(String[] args) throws Exception {
+
+			Job job = new Job();
+			job.setJarByClass(MapSide.class);
+			job.setJobName("MapSideJoin");
+
+			try {
+				DistributedCache.addCacheFile(new URI("/home/teki/hdata/dept/part-m-00000"), job.getConfiguration());
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+			FileInputFormat.setInputPaths(job, new Path(args[0]));
+
+			FileOutputFormat.setOutputPath(job, new Path(args[1]));
+			job.setOutputKeyClass(Text.class);
+			job.setOutputValueClass(IntWritable.class);
+
+			job.setMapperClass(MapperMap.class);
+			job.setReducerClass(MapReduce.class);
+			System.exit(job.waitForCompletion(true) ? 0 : 1);
+
+		}
+
+	}
+}
