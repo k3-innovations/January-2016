@@ -1,0 +1,128 @@
+package mapSIdeJoin;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.filecache.DistributedCache;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+
+
+
+public class MapSideJoin {
+	public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException, InterruptedException {
+		//Configuration conf = new Configuration();
+			Job job = new Job();
+		//Job job = Job.getInstance(conf,"Reduce side join");
+	    
+	    job.setJarByClass(MapSideJoin.class);
+	    job.setMapperClass(MapJoin.class);
+	    job.setReducerClass(AgeRed.class);
+	    
+	    
+	    
+	    job.setOutputKeyClass(Text.class);
+	    job.setOutputValueClass(DoubleWritable.class);
+	    
+	 try {
+		DistributedCache.addCacheFile(new URI("/andy/hddept.txt"), job.getConfiguration());
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+		/*FileSystem fs = FileSystem.get(conf);
+	    
+	    if (fs.exists(new Path(args[2]))) {
+	        fs.delete(new Path(args[2]), true);*/
+	    //}
+	    
+	    
+	    Path output = new Path(args[2]);
+	    
+	    FileOutputFormat.setOutputPath(job, output);
+	    System.exit(job.waitForCompletion(true) ? 0 : 1);
+
+	  
+	}
+	
+	public static class MapJoin extends Mapper<Object,Text,Text,IntWritable>{
+		
+		HashMap<String,String> holder = new HashMap<String,String>();
+		private  Text outKey = new Text();
+		private IntWritable outValue = new IntWritable();
+	    
+		
+		
+		@Override
+		protected void setup(Context context)
+				throws IOException, InterruptedException {
+			Path[] files = DistributedCache.getLocalCacheFiles(context.getConfiguration());
+			for (Path fil : files) {
+				if (fil.getName().equals("hddept.txt")) {
+					BufferedReader read = new BufferedReader(new FileReader(fil.toString()));
+					String line = read.readLine();
+					while (line != null) {
+						String col[] = line.split(",");
+						String deptid = col[0];
+						String dept = col[1];
+						holder.put(deptid , dept);
+						line = read.readLine();
+						
+					}
+					read.close();
+				}
+			}
+		}
+		protected void map( Object key, Text value,Context context)
+				throws IOException, InterruptedException {
+			String lines = value.toString();
+			String[] rec = lines.split(" ");
+		     String deptid = rec[6];
+		     int age = Integer.parseInt(rec[7]);
+			String dept = holder.get(deptid);
+			
+			outValue.set(age);
+			outKey.set(dept);
+			context.write(outKey, outValue);
+			
+		}
+		
+	}
+
+	public static class AgeRed extends Reducer<Text , IntWritable, Text , DoubleWritable>{
+		
+		private Text outK = new Text();
+		private DoubleWritable outV = new DoubleWritable();
+		protected void reduce(Text key, Iterable<IntWritable>values, Context context)
+				throws IOException, InterruptedException {
+			
+		     int cnt=0 ;
+			double ave =0;
+			int total =0;
+			for (IntWritable age : values) {
+				++cnt;
+				total+=total;
+			}
+			ave = total/cnt;
+			outK.set(key);
+			outV.set(ave);
+		   context.write(outK, outV);
+		}
+		
+	}
+	
+}
+
